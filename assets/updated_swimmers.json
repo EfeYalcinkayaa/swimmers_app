@@ -1,0 +1,221 @@
+[
+  {
+    "name": "David Popovici",
+    "nation": "Romania",
+    "events": [
+      "100m Freestyle",
+      "200m Freestyle"
+    ],
+    "team": "CS Dinamo",
+    "bestTime": "46.86",
+    "profileUrl": "https://en.wikipedia.org/wiki/David_Popovici"
+  },
+  {
+    "name": "Caeleb Dressel",
+    "nation": "USA",
+    "events": [
+      "50m Freestyle",
+      "100m Butterfly"
+    ],
+    "team": "Gator Swim Club",
+    "bestTime": "21.04",
+    "profileUrl": "https://en.wikipedia.org/wiki/Caeleb_Dressel"
+  },
+  {
+    "name": "Leon Marchand",
+    "nation": "France",
+    "events": [
+      "200m IM",
+      "400m IM"
+    ],
+    "team": "Phoenix Swim Club",
+    "bestTime": "4:02.50",
+    "profileUrl": "https://en.wikipedia.org/wiki/Leon_Marchand"
+  },
+  {
+    "name": "Emre Sakçı",
+    "nation": "Turkey",
+    "events": [
+      "50m Breaststroke",
+      "100m Breaststroke"
+    ],
+    "team": "Fenerbahçe",
+    "bestTime": "25.29",
+    "profileUrl": "https://en.wikipedia.org/wiki/Emre_Sakci"
+  },
+  {
+    "name": "Viktoria Güneş",
+    "nation": "Turkey",
+    "events": [
+      "200m Breaststroke",
+      "400m IM"
+    ],
+    "team": "ENKA",
+    "bestTime": "2:19.64",
+    "profileUrl": "https://en.wikipedia.org/wiki/Viktoriya_Zeynep_Güneş"
+  },
+  {
+    "name": "Kristóf Milák",
+    "nation": "Hungary",
+    "events": [
+      "100m Butterfly",
+      "200m Butterfly"
+    ],
+    "team": "Budapest Honvéd",
+    "bestTime": "49.68",
+    "profileUrl": "https://en.wikipedia.org/wiki/Krist%C3%B3f_Mil%C3%A1k"
+  },
+  {
+    "name": "Adam Peaty",
+    "nation": "UK",
+    "events": [
+      "100m Breaststroke",
+      "50m Breaststroke"
+    ],
+    "team": "City of Derby",
+    "bestTime": "56.88",
+    "profileUrl": "https://en.wikipedia.org/wiki/Adam_Peaty"
+  },
+  {
+    "name": "Katie Ledecky",
+    "nation": "USA",
+    "events": [
+      "800m Freestyle",
+      "1500m Freestyle"
+    ],
+    "team": "Nation's Capital Swim Club",
+    "bestTime": "8:04.79",
+    "profileUrl": "https://en.wikipedia.org/wiki/Katie_Ledecky"
+  },
+  {
+    "name": "Sarah Sjöström",
+    "nation": "Sweden",
+    "events": [
+      "100m Freestyle",
+      "100m Butterfly"
+    ],
+    "team": "Södertörns Simsällskap",
+    "bestTime": "51.71",
+    "profileUrl": "https://en.wikipedia.org/wiki/Sarah_Sj%C3%B6str%C3%B6m"
+  },
+  {
+    "name": "Gregorio Paltrinieri",
+    "nation": "Italy",
+    "events": [
+      "800m Freestyle",
+      "1500m Freestyle"
+    ],
+    "team": "Fiamme Oro",
+    "bestTime": "14:33.10",
+    "profileUrl": "https://en.wikipedia.org/wiki/Gregorio_Paltrinieri"
+  },
+  {
+    "name": "Michael Phelps",
+    "nation": "USA",
+    "events": [
+      "100m Butterfly",
+      "200m IM"
+    ],
+    "team": "North Baltimore Aquatic Club",
+    "bestTime": "49.82",
+    "profileUrl": "https://en.wikipedia.org/wiki/Michael_Phelps"
+  },
+  {
+    "name": "Ian Thorpe",
+    "nation": "Australia",
+    "events": [
+      "200m Freestyle",
+      "400m Freestyle"
+    ],
+    "team": "Sydney Olympic Park Aquatic Centre",
+    "bestTime": "3:40.59",
+    "profileUrl": "https://en.wikipedia.org/wiki/Ian_Thorpe"
+  },
+  {
+    "name": "Katinka Hosszú",
+    "nation": "Hungary",
+    "events": [
+      "200m IM",
+      "400m IM"
+    ],
+    "team": "Iron Swim Budapest",
+    "bestTime": "4:26.36",
+    "profileUrl": "https://en.wikipedia.org/wiki/Katinka_Hossz%C3%BAb"
+  },
+  {
+    "name": "Florian Wellbrock",
+    "nation": "Germany",
+    "events": [
+      "1500m Freestyle",
+      "10km Open Water"
+    ],
+    "team": "SC Magdeburg",
+    "bestTime": "14:36.54",
+    "profileUrl": "https://en.wikipedia.org/wiki/Florian_Wellbrock"
+  },
+  {
+    "name": "Emma McKeon",
+    "nation": "Australia",
+    "events": [
+      "100m Freestyle",
+      "100m Butterfly"
+    ],
+    "team": "Griffith University",
+    "bestTime": "51.96",
+    "profileUrl": "https://en.wikipedia.org/wiki/Emma_McKeon"
+  },
+  {
+    "name": "Ahmed Hafnaoui",
+    "nation": "Tunisia",
+    "events": [
+      "400m Freestyle",
+      "800m Freestyle"
+    ],
+    "team": "USC Trojans",
+    "bestTime": "3:43.36",
+    "profileUrl": "https://en.wikipedia.org/wiki/Ahmed_Hafnaoui"
+  },
+  {
+    "name": "Pan Zhanle",
+    "nation": "China",
+    "events": [
+      "100m Freestyle"
+    ],
+    "team": "Zhejiang",
+    "bestTime": "46.80",
+    "profileUrl": "https://en.wikipedia.org/wiki/Pan_Zhanle"
+  },
+  {
+    "name": "Bobby Finke",
+    "nation": "USA",
+    "events": [
+      "800m Freestyle",
+      "1500m Freestyle"
+    ],
+    "team": "Florida Gators",
+    "bestTime": "14:31.59",
+    "profileUrl": "https://en.wikipedia.org/wiki/Bobby_Finke"
+  },
+  {
+    "name": "Aaron Peirsol",
+    "nation": "USA",
+    "events": [
+      "100m Backstroke",
+      "200m Backstroke"
+    ],
+    "team": "Longhorn Aquatics",
+    "bestTime": "51.94",
+    "profileUrl": "https://en.wikipedia.org/wiki/Aaron_Peirsol"
+  },
+  {
+    "name": "Aleyna Özkan",
+    "nation": "Turkey",
+    "events": [
+      "100m Butterfly",
+      "200m Butterfly"
+    ],
+    "team": "Fenerbahçe",
+    "bestTime": "58.73",
+    "profileUrl": "https://en.wikipedia.org/wiki/Aleyna_Özkan"
+  }
+]
