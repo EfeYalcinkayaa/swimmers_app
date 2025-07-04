@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../main.dart' show MainNavigationPage;
+import '../widgets/background_container.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -35,7 +36,6 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    // Şifre kontrolü (örnek olarak sadece "1234" kabul ediliyor)
     if (password != "1234") {
       setState(() => _passwordError = "Şifre yanlış.");
       return;
@@ -51,46 +51,77 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blue.shade50,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Card(
-            elevation: 8,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            child: Padding(
+    return BackgroundContainer(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(32),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: Colors.white70),
+              ),
               padding: const EdgeInsets.all(24),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.person, size: 80, color: Colors.blue),
+                  const Icon(Icons.person, size: 80, color: Colors.white),
                   const SizedBox(height: 20),
-                  const Text("Hoşgeldiniz!", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  const Text(
+                    "Hoşgeldiniz!",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                   const SizedBox(height: 20),
 
-                  // Kullanıcı Adı
                   TextField(
                     controller: _usernameController,
+                    style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: "Kullanıcı Adı",
+                      labelStyle: const TextStyle(color: Colors.white70),
                       errorText: _usernameError,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.white38),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.redAccent),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 16),
 
-                  // Şifre Girişi
                   TextField(
                     controller: _passwordController,
                     obscureText: _obscurePassword,
+                    style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: "Şifre",
+                      labelStyle: const TextStyle(color: Colors.white70),
                       errorText: _passwordError,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.white38),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.white70,
                         ),
                         onPressed: () {
                           setState(() => _obscurePassword = !_obscurePassword);
@@ -98,16 +129,17 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
 
                   ElevatedButton(
                     onPressed: _login,
-                    child: const Text("Giriş Yap"),
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
                       shape: const StadiumBorder(),
                       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                     ),
-                  )
+                    child: const Text("Giriş Yap"),
+                  ),
                 ],
               ),
             ),

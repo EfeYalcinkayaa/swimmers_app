@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../theme_notifier.dart'; // Tema yönetimini burada tutacağız
+import '../theme_notifier.dart';
+import '../widgets/background_container.dart'; // ✅ Arka plan container'ı eklendi
 
 class SettingsPage extends StatelessWidget {
   final String username;
@@ -13,17 +14,17 @@ class SettingsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("⚙️ Ayarlar"),
-        centerTitle: true,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/settings_bg.jpg"), // arka plan
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(Colors.black45, BlendMode.darken),
-          ),
-        ),
+  title: const Text(
+    "⚙️ Ayarlar",
+    style: TextStyle(color: Colors.white),
+  ),
+  centerTitle: true,
+  backgroundColor: Colors.black.withOpacity(0.5),
+  elevation: 0,
+  iconTheme: const IconThemeData(color: Colors.white),
+),
+
+      body: BackgroundContainer(
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [

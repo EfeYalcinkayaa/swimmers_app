@@ -1,5 +1,5 @@
-// lib/main.dart
 import 'pages/settings_page.dart';
+import 'pages/interview_bot.dart';
 import 'package:provider/provider.dart';
 import 'theme_notifier.dart';
 import 'dart:convert';
@@ -8,6 +8,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:url_launcher/url_launcher.dart';
 import 'pages/login_page.dart';
 import 'dart:async';
+import 'widgets/background_container.dart';
 
 void main() {
   runApp(
@@ -39,12 +40,11 @@ class SwimmerAppRoot extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'SF Pro',
       ),
-      themeMode: themeNotifier.themeMode, // 💡 Burada dinamik tema kullanılıyor
+      themeMode: themeNotifier.themeMode,
       home: SplashScreen(),
     );
   }
 }
-
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -126,7 +126,7 @@ class MainNavigationPage extends StatefulWidget {
 
 class _MainNavigationPageState extends State<MainNavigationPage> {
   int _selectedIndex = 0;
-  late final List<Widget> _pages; // ✅ late tanımlandı
+  late final List<Widget> _pages;
 
   @override
   void initState() {
@@ -134,7 +134,8 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
     _pages = [
       SwimmerListPage(),
       TrackedSwimmersPage(),
-      SettingsPage(username: widget.username), // ✅ widget burada kullanılabilir
+      SettingsPage(username: widget.username),
+      InterviewBotPage(username: widget.username),
     ];
   }
 
@@ -157,6 +158,7 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
           BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Swimmers'),
           BottomNavigationBarItem(icon: Icon(Icons.track_changes), label: 'Tracked'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), label: 'Bot'),
         ],
       ),
     );
@@ -245,102 +247,115 @@ class _SwimmerListPageState extends State<SwimmerListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("🌊 World Swimmers"),
-        centerTitle: true,
-        elevation: 6,
-        shadowColor: Colors.black38,
+    return BackgroundContainer(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+  title: const Text(
+    "🌊 World Swimmers",
+    style: TextStyle(color: Colors.white),
+  ),
+  centerTitle: true,
+  backgroundColor: Colors.transparent,
+  elevation: 0,
+  iconTheme: const IconThemeData(color: Colors.white), // geri tuşu için beyaz ikon
+),
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: TextField(
+                      onChanged: filter,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: "Search swimmer",
+                        labelStyle: const TextStyle(color: Colors.white),
+                        prefixIcon: const Icon(Icons.search, color: Colors.white),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.white),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.white),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: filtered.length,
+                      itemBuilder: (_, i) => TweenAnimationBuilder(
+                        duration: Duration(milliseconds: 400 + i * 50),
+                        tween: Tween<double>(begin: 0, end: 1),
+                        builder: (_, value, child) => Opacity(
+                          opacity: value,
+                          child: Transform.translate(
+                            offset: Offset(0, (1 - value) * 20),
+                            child: child,
+                          ),
+                        ),
+                        child: GestureDetector(
+                          onTap: () => Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => SwimmerDetail(swimmer: filtered[i]),
+                              transitionsBuilder: (_, anim, __, child) =>
+                                  FadeTransition(opacity: anim, child: child),
+                            ),
+                          ),
+                          child: Card(
+                            color: Colors.white.withOpacity(0.8),
+                            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16)),
+                            elevation: 4,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(filtered[i].name,
+                                                style: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold)),
+                                            const SizedBox(height: 4),
+                                            Text("🌍 Nation: ${filtered[i].nation}"),
+                                            Text("🏊 Events: ${filtered[i].events.join(", ")}"),
+                                          ],
+                                        ),
+                                      ),
+                                      IconButton(
+                                        icon: Icon(
+                                          trackedSwimmers.contains(filtered[i])
+                                              ? Icons.check_circle
+                                              : Icons.add_circle_outline,
+                                          color: Colors.blue,
+                                        ),
+                                        onPressed: () => toggleTrack(filtered[i]),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
       ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: TextField(
-                    onChanged: filter,
-                    decoration: InputDecoration(
-                      labelText: "Search swimmer",
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: filtered.length,
-                    itemBuilder: (_, i) => TweenAnimationBuilder(
-                      duration: Duration(milliseconds: 400 + i * 50),
-                      tween: Tween<double>(begin: 0, end: 1),
-                      builder: (_, value, child) => Opacity(
-                        opacity: value,
-                        child: Transform.translate(
-                          offset: Offset(0, (1 - value) * 20),
-                          child: child,
-                        ),
-                      ),
-                      child: GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => SwimmerDetail(swimmer: filtered[i]),
-                            transitionsBuilder: (_, anim, __, child) => FadeTransition(
-                              opacity: anim,
-                              child: child,
-                            ),
-                          ),
-                        ),
-                        child: Card(
-                          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          elevation: 4,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(filtered[i].name,
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold)),
-                                          const SizedBox(height: 4),
-                                          Text("🌍 Nation: ${filtered[i].nation}"),
-                                          Text("🏊 Events: ${filtered[i].events.join(", ")}"),
-                                        ],
-                                      ),
-                                    ),
-                                    IconButton(
-                                      icon: Icon(
-                                        trackedSwimmers.contains(filtered[i])
-                                            ? Icons.check_circle
-                                            : Icons.add_circle_outline,
-                                        color: Colors.blue,
-                                      ),
-                                      onPressed: () => toggleTrack(filtered[i]),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
     );
   }
 }
@@ -351,39 +366,50 @@ class SwimmerDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(swimmer.name)),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          elevation: 6,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("🌍 Nation: ${swimmer.nation}", style: TextStyle(fontSize: 18)),
-                Text("🏢 Team: ${swimmer.team}", style: TextStyle(fontSize: 18)),
-                Text("⏱️ Best Time: ${swimmer.bestTime}", style: TextStyle(fontSize: 18)),
-                const SizedBox(height: 16),
-                Text("🏁 Events:", style: TextStyle(fontWeight: FontWeight.bold)),
-                ...swimmer.events.map((e) => Text("• $e")),
-                const Spacer(),
-                if (swimmer.profileUrl.isNotEmpty)
-                  Center(
-                    child: ElevatedButton.icon(
-                      onPressed: () async {
-                        final uri = Uri.parse(swimmer.profileUrl);
-                        if (await canLaunchUrl(uri)) {
-                          await launchUrl(uri);
-                        }
-                      },
-                      icon: Icon(Icons.link),
-                      label: Text("View Profile"),
+    return BackgroundContainer(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+  title: Text(
+    swimmer.name,
+    style: TextStyle(color: Colors.white), // <-- önemli
+  ),
+  backgroundColor: Colors.transparent,
+  iconTheme: IconThemeData(color: Colors.white), // <-- geri tuşu görünür
+),
+        body: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Card(
+            color: Colors.white.withOpacity(0.85),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            elevation: 6,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("🌍 Nation: ${swimmer.nation}", style: TextStyle(fontSize: 18)),
+                  Text("🏢 Team: ${swimmer.team}", style: TextStyle(fontSize: 18)),
+                  Text("⏱️ Best Time: ${swimmer.bestTime}", style: TextStyle(fontSize: 18)),
+                  const SizedBox(height: 16),
+                  Text("🏁 Events:", style: TextStyle(fontWeight: FontWeight.bold)),
+                  ...swimmer.events.map((e) => Text("• $e")),
+                  const Spacer(),
+                  if (swimmer.profileUrl.isNotEmpty)
+                    Center(
+                      child: ElevatedButton.icon(
+                        onPressed: () async {
+                          final uri = Uri.parse(swimmer.profileUrl);
+                          if (await canLaunchUrl(uri)) {
+                            await launchUrl(uri);
+                          }
+                        },
+                        icon: Icon(Icons.link),
+                        label: Text("View Profile"),
+                      ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -392,26 +418,46 @@ class SwimmerDetail extends StatelessWidget {
   }
 }
 
+
 class TrackedSwimmersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("📌 Tracked Swimmers")),
-      body: trackedSwimmers.isEmpty
-          ? Center(child: Text("No swimmers being tracked yet."))
-          : ListView.builder(
-              itemCount: trackedSwimmers.length,
-              itemBuilder: (_, i) {
-                final swimmer = trackedSwimmers[i];
-                return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: ListTile(
-                    title: Text(swimmer.name),
-                    subtitle: Text("${swimmer.nation} • ${swimmer.events.join(", ")}"),
-                  ),
-                );
-              },
-            ),
+    return BackgroundContainer(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+  title: const Text(
+    "📌 Tracked Swimmers",
+    style: TextStyle(color: Colors.white),
+  ),
+  backgroundColor: Colors.transparent,
+  elevation: 0,
+  iconTheme: const IconThemeData(color: Colors.white),
+),
+
+        body: trackedSwimmers.isEmpty
+            ? const Center(
+                child: Text(
+                  "No swimmers being tracked yet.",
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
+            : ListView.builder(
+                itemCount: trackedSwimmers.length,
+                itemBuilder: (_, i) {
+                  final swimmer = trackedSwimmers[i];
+                  return Card(
+                    color: Colors.white.withOpacity(0.8),
+                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: ListTile(
+                      title: Text(swimmer.name),
+                      subtitle: Text("${swimmer.nation} • ${swimmer.events.join(", ")}"),
+                    ),
+                  );
+                },
+              ),
+      ),
     );
   }
 }
+

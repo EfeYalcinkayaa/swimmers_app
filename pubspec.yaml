@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   url_launcher: ^6.1.10
   provider: ^6.1.1
+  http: ^0.13.6
 
 dev_dependencies:
   flutter_test:
@@ -25,3 +26,4 @@ flutter:
   assets:
     - assets/updated_swimmers.json
     - assets/HD-wallpaper-iphone-11-amoled-blue-galaxy-iphone-new-oceans-phone-wave-thumbnail.jpg
+    - assets/background.jpg
